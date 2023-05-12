@@ -99,10 +99,7 @@ def build(package=False, debug=False):
     build_dir = os.path.join(SCRIPT_DIR, ".build")
     os.makedirs(build_dir, exist_ok=True)
 
-    build_type = "relwithdebinfo"
-    if debug:
-        build_type = "debug"
-
+    build_type = "debug" if debug else "relwithdebinfo"
     with chdir(build_dir), global_build_lock:
         # check if we have built yet in this process
         if build_type not in global_builds:

@@ -29,16 +29,12 @@ def determine_version():
         assert parts[0] == "refs"
         if parts[1] == "tags":
             tag = parts[2]
-            assert tag == version, "mismatch in tag vs version, expected: %s actual: %s" % (
-                tag,
-                version,
-            )
+            assert (
+                tag == version
+            ), f"mismatch in tag vs version, expected: {tag} actual: {version}"
             return version
-    
-    if sha == "unknown":
-        return version
-    else:
-        return version + "+" + sha[:7]
+
+    return version if sha == "unknown" else f"{version}+{sha[:7]}"
 
 version = determine_version()
 

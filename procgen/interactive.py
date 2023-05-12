@@ -55,18 +55,18 @@ def main():
         "--vision",
         default="human",
         choices=["agent", "human"],
-        help="level of fidelity of observation " + default_str,
+        help=f"level of fidelity of observation {default_str}",
     )
     parser.add_argument("--record-dir", help="directory to record movies to")
     parser.add_argument(
         "--distribution-mode",
         default="hard",
-        help="which distribution mode to use for the level generation " + default_str,
+        help=f"which distribution mode to use for the level generation {default_str}",
     )
     parser.add_argument(
         "--env-name",
         default="coinrun",
-        help="name of game to create " + default_str,
+        help=f"name of game to create {default_str}",
         choices=ENV_NAMES + ["coinrun_old"],
     )
     parser.add_argument(

@@ -89,12 +89,15 @@ class BaseProcgenEnv(CEnv):
 
         lib_dir = os.path.join(SCRIPT_DIR, "data", "prebuilt")
         if os.path.exists(lib_dir):
-            assert any([os.path.exists(os.path.join(lib_dir, name)) for name in ["libenv.so", "libenv.dylib", "env.dll"]]), "package is installed, but the prebuilt environment library is missing"
+            assert any(
+                os.path.exists(os.path.join(lib_dir, name))
+                for name in ["libenv.so", "libenv.dylib", "env.dll"]
+            ), "package is installed, but the prebuilt environment library is missing"
             assert not debug, "debug has no effect for pre-compiled library"
         else:
             # only compile if we don't find a pre-built binary
             lib_dir = build(debug=debug)
-        
+
         self.combos = self.get_combos()
 
         if render_mode is None:
@@ -180,11 +183,7 @@ class BaseProcgenEnv(CEnv):
             action = None
             max_len = -1
             for i, combo in enumerate(self.get_combos()):
-                pressed = True
-                for key in combo:
-                    if key not in keys:
-                        pressed = False
-
+                pressed = all(key in keys for key in combo)
                 if pressed and (max_len < len(combo)):
                     action = i
                     max_len = len(combo)
@@ -255,10 +254,7 @@ class ToBaselinesVecEnv(gym3.ToBaselinesVecEnv):
         info = self.env.get_info()[0]
         _, ob, _ = self.env.observe()
         if mode == "rgb_array":
-            if "rgb" in info:
-                return info["rgb"]
-            else:
-                return ob['rgb'][0]        
+            return info["rgb"] if "rgb" in info else ob['rgb'][0]        
 
 
 def ProcgenEnv(num_envs, env_name, **kwargs):

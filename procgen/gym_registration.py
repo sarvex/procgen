@@ -22,8 +22,7 @@ def make_env(render_mode=None, render=False, **kwargs):
     env = ExtractDictObWrapper(env, key="rgb")
     if use_viewer_wrapper:
         env = ViewerWrapper(env, tps=15, info_key="rgb")
-    gym_env = ToGymEnv(env)
-    return gym_env
+    return ToGymEnv(env)
 
 
 def register_environments():
